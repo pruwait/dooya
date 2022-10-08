@@ -13,6 +13,8 @@ enum Command : uint8_t {
   READ = 0x01,
   WRITE = 0x02,
   CONTROL = 0x03,
+  ANSWER = 0x04,
+  
 };
 
 enum ReadType : uint8_t {
