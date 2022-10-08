@@ -64,28 +64,28 @@ void Dooya::on_uart_multi_byte(uint8_t byte) { // вызывается при п
   if (at == 0)
       if (byte == START_CODE)
         this->rx_buffer_.push_back(byte);   // получили заголовок = байт0
-      break;
+      
     if (at == 1)
       if (byte == this->address_[0])
         this->rx_buffer_.push_back(byte);    // получили адрес0
       else
         this->rx_buffer_.clear();
-      break;
+      
     if (at == 2)
       if (byte == this->address_[1])
         this->rx_buffer_.push_back(byte);    // получили адрес1
       else
         this->rx_buffer_.clear();
-      break;
+      
     if (at == 3) 
       if (byte == CONTROL || byte == READ)  
         this->rx_buffer_.push_back(byte);    // получили команду управлния или чтения
       else
         this->rx_buffer_.clear();
-      break;
-    if (at < 6) {                    // получили данные и возможно, начало crc 
+      
+    if (at < 6)                     // получили данные и возможно, начало crc 
       this->rx_buffer_.push_back(byte);
-      break; }
+      
     if (at >= 6)  {                    // возможно, получили весь пакет
       this->rx_buffer_.push_back(byte);
       std::vector<uint8_t> frame(this->rx_buffer_.begin(), this->rx_buffer_.end());
@@ -96,7 +96,7 @@ void Dooya::on_uart_multi_byte(uint8_t byte) { // вызывается при п
         else
           this->process_status_();
       this->rx_buffer_.clear();
-      break;   
+      
     } //  if (at >= 6) 
 
       
