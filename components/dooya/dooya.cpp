@@ -136,7 +136,7 @@ void Dooya::process_status_() {
   this->parent_->ready_to_tx = true;
   std::vector<uint8_t> frame(this->rx_buffer_.begin(), this->rx_buffer_.end() - 2);
   uint16_t crc = crc16(&frame[0], frame.size());
-  if (((crc & 0xFF) == this->rx_buffer_.end()[-2]) && ((crc >> 8) == this->rx_buffer_.end()[-1])) {
+  if (((crc & 0xFF) == this->rx_buffer_.end()[-1]) && ((crc >> 8) == this->rx_buffer_.end()[-2])) {
     if (this->current_request_ == GET_POSITION) {
       float pos = 0.5f;
       if (this->rx_buffer_[5] != 0xFF)
