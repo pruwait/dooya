@@ -129,7 +129,7 @@ void Dooya::process_response_() {
     }
     this->publish_state(false);
   } else
-    ESP_LOGE(TAG, "Incoming data CRC check failed");
+    ESP_LOGE(TAG, "Incoming data CRC check failed  crc=%X", crc);
 }
 
 void Dooya::process_status_() {
