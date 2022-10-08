@@ -171,26 +171,26 @@ void Dooya::process_status_() {
         case 0:
           if (this->current_operation != COVER_OPERATION_IDLE) {
             this->current_operation = COVER_OPERATION_IDLE;
-            //this->publish_state(false);
+            this->publish_state(false);
           } //if
           break;
         case 1:
           if (this->current_operation != COVER_OPERATION_OPENING) {
             this->current_operation = COVER_OPERATION_OPENING;
-       //     this->publish_state(false);
+            this->publish_state(false);
           } //if
           break;
         case 2:
           if (this->current_operation != COVER_OPERATION_CLOSING) {
             this->current_operation = COVER_OPERATION_CLOSING;
-        //    this->publish_state(false);
+            this->publish_state(false);
           } // if
           break;
         default:
           ESP_LOGE(TAG, "Invalid status operation received");
           return;
       } // switch
-  //    this->current_request_ = GET_POSITION;
+      this->current_request_ = GET_POSITION;
     } // else
   
 }
