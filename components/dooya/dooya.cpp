@@ -105,7 +105,7 @@ void Dooya::on_uart_multi_byte(uint8_t byte) { // вызывается при п
 //        else
 //          this->process_status_(); 
       this->rx_buffer_.clear();
-      }
+//      }
           
       return;
     } //  if (at >= 6) 
