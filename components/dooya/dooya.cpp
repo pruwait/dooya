@@ -58,7 +58,7 @@ void Dooya::send_update() {
 
 void Dooya::on_uart_multi_byte(uint8_t byte) { // вызывается при получении байта uart
   uint32_t at = this->rx_buffer_.size();       // номер последнего полученного байта
-  uint8_t *data = &this->rx_message_[0];               // указатель на первый байт сообщения
+  uint8_t *data = &this->rx_buffer_[0];               // указатель на первый байт сообщения
 //  switch (at) {
 //    case 0:
   if (at == 0)
