@@ -106,6 +106,10 @@ void Dooya::process_response_() {
   this->parent_->ready_to_tx = true;
   std::vector<uint8_t> frame(this->rx_buffer_.begin(), this->rx_buffer_.end() - 2);
   uint16_t crc = crc16(&frame[0], frame.size());
+  
+  std::string pretty_cmd = format_hex_pretty(rx_buffer_);
+  ESP_LOGI(TAG,  "Получен пакет: %S ", pretty_cmd.c_str() );
+  
   if (((crc & 0xFF) == this->rx_buffer_.end()[-1]) && ((crc >> 8) == this->rx_buffer_.end()[-2])) {
     switch (this->rx_buffer_[4]) {
       case STOP:
