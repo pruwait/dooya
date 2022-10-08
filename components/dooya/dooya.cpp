@@ -173,7 +173,7 @@ void Dooya::process_status_() {
       this->current_request_ = GET_POSITION;
     }
   } else
-    ESP_LOGE(TAG, "Incoming data CRC check failed, CRC process_status = %X", crc);
+    ESP_LOGE(TAG, "Incoming data CRC check failed, crc & 0xFF = %X rx_buffer-1 = %X rx_buffer-2 = %X", crc & 0xFF, rx_buffer_.end()[-1], rx_buffer_.end()[-2]);
 }
 
 void Dooya::send_command_(const uint8_t *data, uint8_t len) {
