@@ -177,13 +177,13 @@ void Dooya::process_status_() {
         case 1:
           if (this->current_operation != COVER_OPERATION_OPENING) {
             this->current_operation = COVER_OPERATION_OPENING;
-            this->publish_state(false);
+       //     this->publish_state(false);
           } //if
           break;
         case 2:
           if (this->current_operation != COVER_OPERATION_CLOSING) {
             this->current_operation = COVER_OPERATION_CLOSING;
-            this->publish_state(false);
+        //    this->publish_state(false);
           } // if
           break;
         default:
