@@ -56,51 +56,53 @@ void Dooya::send_update() {
   this->send_command_(data, 3);
 }
 
-void Dooya::on_uart_multi_byte(uint8_t byte) {
-  size_t at = this->rx_buffer_.size();       // номер последнего полученного байта
-  switch (at) {
-    case 0:
+void Dooya::on_uart_multi_byte(uint8_t byte) { // вызывается при получении байта uart
+  uint32_t at = this->rx_buffer_.size();       // номер последнего полученного байта
+  uint8_t *data = &this->rx_message_[0];               // указатель на первый байт сообщения
+//  switch (at) {
+//    case 0:
+  if (at == 0)
       if (byte == START_CODE)
         this->rx_buffer_.push_back(byte);   // получили заголовок = байт0
       break;
-    case 1:
+    if (at == 1)
       if (byte == this->address_[0])
         this->rx_buffer_.push_back(byte);    // получили адрес0
       else
         this->rx_buffer_.clear();
       break;
-    case 2:
+    if (at == 2)
       if (byte == this->address_[1])
         this->rx_buffer_.push_back(byte);    // получили адрес1
       else
         this->rx_buffer_.clear();
       break;
-    case 3:
+    if (at == 3) 
       if (byte == CONTROL || byte == READ)  
         this->rx_buffer_.push_back(byte);    // получили команду управлния или чтения
       else
         this->rx_buffer_.clear();
       break;
-    case 6:
+    if (at < 6) {                    // получили данные и возможно, начало crc 
       this->rx_buffer_.push_back(byte);
-      if (this->rx_buffer_[3] == CONTROL)
-        if (this->rx_buffer_[4] != SET_POSITION) {
+      break; }
+    if (at >= 6)  {                    // возможно, получили весь пакет
+      this->rx_buffer_.push_back(byte);
+      std::vector<uint8_t> frame(this->rx_buffer_.begin(), this->rx_buffer_.end());
+      uint16_t crc = crc16(&frame[0], frame.size());      // получили crc
+      if (((crc & 0xFF) == this->rx_buffer_.end()[-1]) && ((crc >> 8) == this->rx_buffer_.end()[-2]))   // если пришло всё сообщение
+        if (this->rx_buffer_[3] == CONTROL)
           this->process_response_();
-          this->rx_buffer_.clear();
-        }
-      break;
-    case 7:
-      this->rx_buffer_.push_back(byte);
-      if (this->rx_buffer_[3] == CONTROL)
-        this->process_response_();
-      else
-        this->process_status_();
+        else
+          this->process_status_();
       this->rx_buffer_.clear();
-      break;
-    default:
-      this->rx_buffer_.push_back(byte);  // добавляем в буфер байты 4, 5
-  }
-}
+      break;   
+    } //  if (at >= 6) 
+
+      
+  
+  
+} //function
 
 void Dooya::process_response_() {
   this->parent_->ready_to_tx = true;
