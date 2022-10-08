@@ -117,8 +117,8 @@ void Dooya::on_uart_multi_byte(uint8_t byte) { // вызывается при п
 
 void Dooya::process_response_() {
   this->parent_->ready_to_tx = true;
-  std::vector<uint8_t> frame(this->rx_buffer_.begin(), this->rx_buffer_.end() - 2);
-  uint16_t crc = crc16(&frame[0], frame.size());
+  std::vector<uint8_t> frame(this->rx_buffer_.begin(), this->rx_buffer_.end());
+  uint16_t crc = crc16(&frame[0], frame.size()-2);
   
   std::string pretty_cmd = format_hex_pretty(rx_buffer_);
   ESP_LOGI(TAG,  "Получен пакет ответа: %S ", pretty_cmd.c_str() );
