@@ -93,16 +93,17 @@ void Dooya::on_uart_multi_byte(uint8_t byte) { // вызывается при п
   }      
   if (at >= 6)  {                    // возможно, получили весь пакет
       this->rx_buffer_.push_back(byte);
-      std::string pretty_cmd = format_hex_pretty(rx_buffer_);
-      ESP_LOGI(TAG,  "Получено побайтно: %S ", pretty_cmd.c_str() );
+//      std::string pretty_cmd = format_hex_pretty(rx_buffer_);
+ //     ESP_LOGI(TAG,  "Получено побайтно: %S ", pretty_cmd.c_str() );
     
       std::vector<uint8_t> frame(this->rx_buffer_.begin(), this->rx_buffer_.end());
       uint16_t crc = crc16(&frame[0], frame.size());      // получили crc
-      if (((crc & 0xFF) == this->rx_buffer_.end()[-2]) && ((crc >> 8) == this->rx_buffer_.end()[-1])) {  // если пришло всё сообщение
-        if (this->rx_buffer_[3] == CONTROL)
-          this->process_response_();
-        else
-          this->process_status_(); 
+      ESP_LOGI(TAG,  "Получено crc & 0xFF= %X crc >> 8 = %X", crc & 0xFF, crc >> 8);
+//      if (((crc & 0xFF) == this->rx_buffer_.end()[-2]) && ((crc >> 8) == this->rx_buffer_.end()[-1])) {  // если пришло всё сообщение
+//        if (this->rx_buffer_[3] == CONTROL)
+//          this->process_response_();
+//        else
+//          this->process_status_(); 
       this->rx_buffer_.clear();
       }
           
