@@ -159,15 +159,15 @@ void Dooya::process_status_() {
 
     if (this->current_request_ == GET_POSITION) {
       float pos = 0.5f;
-      if (this->rx_buffer_[5] != 0xFF)
-        pos = clamp((float) this->rx_buffer_[5] / 100, 0.0f, 1.0f);
+      if (this->rx_buffer_[6] != 0xFF)
+        pos = clamp((float) this->rx_buffer_[6] / 100, 0.0f, 1.0f);
       if (this->position != pos) {
         this->position = pos;
         this->publish_state(false);
       }
       this->current_request_ = GET_STATUS;
     } else {
-      switch (this->rx_buffer_[5]) {
+      switch (this->rx_buffer_[6]) {
         case 0:
           if (this->current_operation != COVER_OPERATION_IDLE) {
             this->current_operation = COVER_OPERATION_IDLE;
