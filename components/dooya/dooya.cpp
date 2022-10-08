@@ -98,12 +98,12 @@ void Dooya::on_uart_multi_byte(uint8_t byte) { // вызывается при п
     
       std::vector<uint8_t> frame(this->rx_buffer_.begin(), this->rx_buffer_.end() - 2);
       uint16_t crc = crc16(&frame[0], frame.size());      // получили crc
-      ESP_LOGI(TAG,  "Получено crc & 0xFF= %X crc >> 8 = %X [-2] = %X [-1] = %X", crc & 0xFF, crc >> 8, rx_buffer_.end()[-2], rx_buffer_.end()[-1]);
+//      ESP_LOGI(TAG,  "Получено crc & 0xFF= %X crc >> 8 = %X [-2] = %X [-1] = %X", crc & 0xFF, crc >> 8, rx_buffer_.end()[-2], rx_buffer_.end()[-1]);
       if (((crc & 0xFF) == this->rx_buffer_.end()[-2]) && ((crc >> 8) == this->rx_buffer_.end()[-1])) {  // если пришло всё сообщение
-//        if (this->rx_buffer_[3] == CONTROL)
-//          this->process_response_();
-//        else
-//          this->process_status_(); 
+        if (this->rx_buffer_[3] == CONTROL)
+          this->process_response_();
+        else
+          this->process_status_(); 
       this->rx_buffer_.clear();
       }
           
@@ -123,7 +123,7 @@ void Dooya::process_response_() {
   std::string pretty_cmd = format_hex_pretty(rx_buffer_);
   ESP_LOGI(TAG,  "Получен пакет ответа: %S ", pretty_cmd.c_str() );
   
-  if (((crc & 0xFF) == this->rx_buffer_.end()[-1]) && ((crc >> 8) == this->rx_buffer_.end()[-2])) {
+
     switch (this->rx_buffer_[4]) {
       case STOP:
         this->current_operation = COVER_OPERATION_IDLE;
@@ -145,9 +145,7 @@ void Dooya::process_response_() {
         return;
     }
     this->publish_state(false);
-  } else
-    ESP_LOGE(TAG, "Incoming data CRC check failed  crc=%X", crc);
-}
+  
 
 void Dooya::process_status_() {
   this->parent_->ready_to_tx = true;
@@ -158,7 +156,7 @@ void Dooya::process_status_() {
   ESP_LOGI(TAG,  "Получен пакет статуса: %S ", pretty_cmd.c_str() );
   
   
-  if (((crc & 0xFF) == this->rx_buffer_.end()[-1]) && ((crc >> 8) == this->rx_buffer_.end()[-2])) {
+
     if (this->current_request_ == GET_POSITION) {
       float pos = 0.5f;
       if (this->rx_buffer_[5] != 0xFF)
@@ -194,8 +192,7 @@ void Dooya::process_status_() {
       }
       this->current_request_ = GET_POSITION;
     }
-  } else
-    ESP_LOGE(TAG, "Incoming data CRC check failed, crc & 0xFF = %X rx_buffer-1 = %X rx_buffer-2 = %X", crc & 0xFF, rx_buffer_.end()[-1], rx_buffer_.end()[-2]);
+  
 }
 
 void Dooya::send_command_(const uint8_t *data, uint8_t len) {
