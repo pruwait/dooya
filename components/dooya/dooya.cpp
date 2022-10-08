@@ -190,7 +190,7 @@ void Dooya::process_status_() {
           ESP_LOGE(TAG, "Invalid status operation received");
           return;
       } // switch
-      this->current_request_ = GET_POSITION;
+  //    this->current_request_ = GET_POSITION;
     } // else
   
 }
