@@ -152,8 +152,8 @@ void Dooya::process_status_() {
   std::vector<uint8_t> frame(this->rx_buffer_.begin(), this->rx_buffer_.end() - 2);
   uint16_t crc = crc16(&frame[0], frame.size());
   
-  std::string pretty_cmd = format_hex_pretty(rx_buffer_);
-  ESP_LOGI(TAG,  "Получен пакет статуса: %S ", pretty_cmd.c_str() );
+//  std::string pretty_cmd = format_hex_pretty(rx_buffer_);
+//  ESP_LOGI(TAG,  "Получен пакет статуса: %S ", pretty_cmd.c_str() );
   
   
 
