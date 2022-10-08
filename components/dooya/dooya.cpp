@@ -61,33 +61,36 @@ void Dooya::on_uart_multi_byte(uint8_t byte) { // вызывается при п
   uint8_t *data = &this->rx_buffer_[0];               // указатель на первый байт сообщения
 //  switch (at) {
 //    case 0:
-  if (at == 0)
+  if (at == 0) {
       if (byte == START_CODE)
         this->rx_buffer_.push_back(byte);   // получили заголовок = байт0
-      
-    if (at == 1)
+  }
+  if (at == 1) {
       if (byte == this->address_[0])
         this->rx_buffer_.push_back(byte);    // получили адрес0
       else
         this->rx_buffer_.clear();
-      
-    if (at == 2)
+  }
+  if (at == 2) {
       if (byte == this->address_[1])
         this->rx_buffer_.push_back(byte);    // получили адрес1
       else
         this->rx_buffer_.clear();
-      
-    if (at == 3) 
+  }      
+  if (at == 3) {
       if (byte == CONTROL || byte == READ)  
         this->rx_buffer_.push_back(byte);    // получили команду управлния или чтения
       else
         this->rx_buffer_.clear();
-      
-    if (at < 6)                     // получили данные и возможно, начало crc 
+  }
+  if (at < 6) {                    // получили данные и возможно, начало crc 
       this->rx_buffer_.push_back(byte);
-      
-    if (at >= 6)  {                    // возможно, получили весь пакет
+  }      
+  if (at >= 6)  {                    // возможно, получили весь пакет
       this->rx_buffer_.push_back(byte);
+      std::string pretty_cmd = format_hex_pretty(rx_buffer_);
+      ESP_LOGI(TAG,  "Получено побайтно: %S ", pretty_cmd.c_str() );
+    
       std::vector<uint8_t> frame(this->rx_buffer_.begin(), this->rx_buffer_.end());
       uint16_t crc = crc16(&frame[0], frame.size());      // получили crc
       if (((crc & 0xFF) == this->rx_buffer_.end()[-1]) && ((crc >> 8) == this->rx_buffer_.end()[-2]))   // если пришло всё сообщение
