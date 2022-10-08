@@ -143,9 +143,9 @@ void Dooya::process_response_() {
       default:
         ESP_LOGE(TAG, "Invalid control operation received");
         return;
-    }
+    } // switch
     this->publish_state(false);
-  
+}
 
 void Dooya::process_status_() {
   this->parent_->ready_to_tx = true;
@@ -172,26 +172,26 @@ void Dooya::process_status_() {
           if (this->current_operation != COVER_OPERATION_IDLE) {
             this->current_operation = COVER_OPERATION_IDLE;
             this->publish_state(false);
-          }
+          } //if
           break;
         case 1:
           if (this->current_operation != COVER_OPERATION_OPENING) {
             this->current_operation = COVER_OPERATION_OPENING;
             this->publish_state(false);
-          }
+          } //if
           break;
         case 2:
           if (this->current_operation != COVER_OPERATION_CLOSING) {
             this->current_operation = COVER_OPERATION_CLOSING;
             this->publish_state(false);
-          }
+          } // if
           break;
         default:
           ESP_LOGE(TAG, "Invalid status operation received");
           return;
-      }
+      } // switch
       this->current_request_ = GET_POSITION;
-    }
+    } // else
   
 }
 
