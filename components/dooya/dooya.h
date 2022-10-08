@@ -19,7 +19,7 @@ enum Command : uint8_t {
 
 enum ReadType : uint8_t {
   GET_POSITION = 0x02,
-  GET_STATUS = 0x03,
+  GET_STATUS = 0x05,
 };
 
 enum ControlType : uint8_t {
