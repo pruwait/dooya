@@ -57,27 +57,27 @@ void Dooya::send_update() {
 }
 
 void Dooya::on_uart_multi_byte(uint8_t byte) {
-  size_t at = this->rx_buffer_.size();
+  size_t at = this->rx_buffer_.size();       // номер последнего полученного байта
   switch (at) {
     case 0:
       if (byte == START_CODE)
-        this->rx_buffer_.push_back(byte);
+        this->rx_buffer_.push_back(byte);   // получили заголовок = байт0
       break;
     case 1:
       if (byte == this->address_[0])
-        this->rx_buffer_.push_back(byte);
+        this->rx_buffer_.push_back(byte);    // получили адрес0
       else
         this->rx_buffer_.clear();
       break;
     case 2:
       if (byte == this->address_[1])
-        this->rx_buffer_.push_back(byte);
+        this->rx_buffer_.push_back(byte);    // получили адрес1
       else
         this->rx_buffer_.clear();
       break;
     case 3:
-      if (byte == CONTROL || byte == READ)
-        this->rx_buffer_.push_back(byte);
+      if (byte == CONTROL || byte == READ)  
+        this->rx_buffer_.push_back(byte);    // получили команду управлния или чтения
       else
         this->rx_buffer_.clear();
       break;
@@ -98,7 +98,7 @@ void Dooya::on_uart_multi_byte(uint8_t byte) {
       this->rx_buffer_.clear();
       break;
     default:
-      this->rx_buffer_.push_back(byte);
+      this->rx_buffer_.push_back(byte);  // добавляем в буфер байты 4, 5
   }
 }
 
