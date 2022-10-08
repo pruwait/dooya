@@ -120,8 +120,8 @@ void Dooya::process_response_() {
   std::vector<uint8_t> frame(this->rx_buffer_.begin(), this->rx_buffer_.end());
   uint16_t crc = crc16(&frame[0], frame.size());
   
-  std::string pretty_cmd = format_hex_pretty(rx_buffer_);
-  ESP_LOGI(TAG,  "Получен пакет ответа: %S ", pretty_cmd.c_str() );
+ // std::string pretty_cmd = format_hex_pretty(rx_buffer_);
+ // ESP_LOGI(TAG,  "Получен пакет ответа: %S ", pretty_cmd.c_str() );
   
 
     switch (this->rx_buffer_[4]) {
@@ -171,7 +171,7 @@ void Dooya::process_status_() {
         case 0:
           if (this->current_operation != COVER_OPERATION_IDLE) {
             this->current_operation = COVER_OPERATION_IDLE;
-            this->publish_state(false);
+            //this->publish_state(false);
           } //if
           break;
         case 1:
