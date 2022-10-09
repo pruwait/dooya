@@ -127,11 +127,11 @@ void Dooya::process_response_() {
     switch (this->rx_buffer_[4]) {
       case STOP:
         this->current_operation = COVER_OPERATION_IDLE;
-        this->publish_state(false);
+ //       this->publish_state(false);
         break;
       case OPEN:
         this->current_operation = COVER_OPERATION_OPENING;
-        this->publish_state(false);
+//        this->publish_state(false);
         break;
       case CLOSE:
         this->current_operation = COVER_OPERATION_CLOSING;
@@ -146,7 +146,7 @@ void Dooya::process_response_() {
         ESP_LOGE(TAG, "Invalid control operation received");
         return;
     } // switch
-//    this->publish_state(false);
+    this->publish_state(false);
 }
 
 void Dooya::process_status_() {
