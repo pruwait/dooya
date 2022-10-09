@@ -27,6 +27,7 @@ uint16_t crc16(const uint8_t *data, uint8_t len) {
 CoverTraits Dooya::get_traits() {
   auto traits = CoverTraits();
   traits.set_supports_position(true);
+  traits.set_is_assumed_state(false);
   return traits;
 }
 
