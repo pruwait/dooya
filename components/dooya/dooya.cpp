@@ -168,7 +168,7 @@ void Dooya::process_status_() {
         this->position = pos;
         this->publish_state(false);
       }
-//      this->current_request_ = GET_STATUS;  // запрос статуса приводит к задвоению в ответах
+      this->current_request_ = GET_STATUS;  // запрос статуса приводит к задвоению в ответах
     } else {
       switch (this->rx_buffer_[6]) {
         case 0:
