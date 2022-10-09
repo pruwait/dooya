@@ -161,7 +161,7 @@ void Dooya::process_status_() {
 
     if (this->current_request_ == GET_POSITION) {
       float pos = 0.5f;
-      if ((this->rx_buffer_[6] != 0xFF) && ((this->rx_buffer_[5] == 0x01) )
+      if ((this->rx_buffer_[6] != 0xFF) && (this->rx_buffer_[5] == 0x01) )
         pos = clamp((float) this->rx_buffer_[6] / 100, 0.0f, 1.0f);
       if (this->position != pos) {
         this->position = pos;
